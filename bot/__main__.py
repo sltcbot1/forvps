@@ -7,7 +7,7 @@ from sys import executable
 from telegram import InlineKeyboardMarkup, ParseMode
 from telegram.ext import CommandHandler
 
-from bot import bot, IMAGE_URL, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, alive, app, OWNER_ID, AUTHORIZED_CHATS, main_loop
+from bot import bot, IMAGE_URL, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, alive, app, OWNER_ID, AUTHORIZED_CHATS, SUDO_USERS, main_loop
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
@@ -232,7 +232,8 @@ def main():
     elif OWNER_ID:
         try:
             text = "<b>Bot Restarted!</b>"
-            bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
+            for k in SUDO_USERS:
+                bot.sendMessage(chat_id=k, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
                 for i in AUTHORIZED_CHATS:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
