@@ -284,6 +284,19 @@ class MirrorListener:
             DbManger().rm_complete_task(self.message.link)
 
 def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0):
+    buttons = ButtonMaker()
+    TITLE_NAME = "Join Channel"
+    CHANNEL_USERNAME = "SLTCUpdates"
+    try:
+        uname = message.from_user.mention_html(message.from_user.first_name)
+        user = bot.get_chat_member(int(-1001691739650), message.from_user.id)
+        if user.status not in ['member', 'creator', 'administrator']:
+            buttons.buildbutton(f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
+            reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our updates channel</b>", bot, message, reply_markup)
+    except Exception as e:
+        LOGGER.info(str(e))
+
     mesg = message.text.split('\n')
     message_args = mesg[0].split(' ', maxsplit=1)
     name_args = mesg[0].split('|', maxsplit=1)
