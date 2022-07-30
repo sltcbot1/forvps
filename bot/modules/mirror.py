@@ -201,7 +201,7 @@ class MirrorListener:
             if typ != 0:
                 msg += f'\n<b>☞ ❌ Corrupted Files: </b>{typ}'
             msg += f'\n<b>➩👤 cc: </b>{self.tag}\n\n'
-            msg += f'<b>☞ 🎯 Powered by @SLTorrentingCorp</b>\n\n'
+            msg += f'<b>☞ 🎯 Powered by @SLTCUpdates</b>\n\n'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
@@ -220,7 +220,7 @@ class MirrorListener:
                 msg += f'\n<b>☞ 📂 SubFolders: </b>{folders}'
                 msg += f'\n<b>☞ 💾 Files: </b>{files}'
             msg += f'\n\n<b>➩👤 cc: </b>{self.tag}'
-            msg += f'\n\n<b>☞ 🎯 Powered by @SLTorrentingCorp</b>'
+            msg += f'\n\n<b>☞ 🎯 Powered by @SLTCUpdates</b>'
             buttons = ButtonMaker()
             link = short_url(link)
             buttons.buildbutton("☁️ Drive Link", link)
