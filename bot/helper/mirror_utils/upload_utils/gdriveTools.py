@@ -358,7 +358,7 @@ class GoogleDriveHelper:
                 msg += '\n\n<b>☞ ⚙ Type: </b>Folder'
                 msg += f'\n<b>☞ 📂 SubFolders: </b>{self.__total_folders}'
                 msg += f'\n<b>☞ 💾 Files: </b>{self.__total_files}'
-                msg += f'\n\n<b>☞ 🎯 Powered by @SLTorrentingCorp</b>'
+                msg += f'\n\n<b>☞ 🎯 Powered by @SLTCUpdates</b>'
                 buttons = ButtonMaker()
                 durl = short_url(durl)
                 buttons.buildbutton("☁️ Drive Link", durl)
@@ -435,7 +435,7 @@ class GoogleDriveHelper:
     def __create_directory(self, directory_name, parent_id):
         file_metadata = {
             "name": directory_name,
-            "description": "Uploaded by @SLTorrentingCorp",
+            "description": "Uploaded by @SLTCUpdates",
             "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
         }
         if parent_id is not None:
@@ -680,7 +680,7 @@ class GoogleDriveHelper:
         for content in telegraph_content:
             path.append(
                 telegraph.create_page(
-                    title='Mirror-Leech-Bot Drive Search',
+                    title='SLTC Bot 1 Drive Search',
                     content=content
                 )["path"]
             )
@@ -721,7 +721,7 @@ class GoogleDriveHelper:
                 msg += f'\n\n<b>☞ 📦 Size: </b>{get_readable_file_size(self.__total_bytes)}'
                 msg += f'\n\n<b>☞ ⚙ Type: </b>{mime_type}'
             msg += f'\n<b>☞ 💾 Files: </b>{self.__total_files}'
-            msg += f'\n\n<b>☞ 🎯 Powered by @SLTorrentingCorp</b>'
+            msg += f'\n\n<b>☞ 🎯 Powered by @SLTCUpdates</b>'
         except Exception as err:
             if isinstance(err, RetryError):
                 LOGGER.info(f"Total Attempts: {err.last_attempt.attempt_number}")
