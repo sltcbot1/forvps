@@ -4,7 +4,7 @@ from telegram import InlineKeyboardMarkup
 from time import sleep
 from re import split as re_split
 
-from bot import DOWNLOAD_DIR, dispatcher
+from bot import DOWNLOAD_DIR, dispatcher, LOGGER
 from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage
 from bot.helper.telegram_helper import button_build
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_url
@@ -12,10 +12,24 @@ from bot.helper.mirror_utils.download_utils.youtube_dl_download_helper import Yo
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from .mirror import MirrorListener
+from bot.helper.telegram_helper.button_build import ButtonMaker
 
 listener_dict = {}
 
 def _watch(bot, message, isZip=False, isLeech=False, multi=0):
+    buttons = ButtonMaker()
+    TITLE_NAME = "Join Channel"
+    CHANNEL_USERNAME = "SLTCUpdates"
+    try:
+        uname = message.from_user.mention_html(message.from_user.first_name)
+        user = bot.get_chat_member(int(-1001691739650), message.from_user.id)
+        if user.status not in ['member', 'creator', 'administrator']:
+            buttons.buildbutton(f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
+            reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our update channel</b>", bot, message, reply_markup)
+    except Exception as e:
+        LOGGER.info(str(e))
+
     mssg = message.text
     user_id = message.from_user.id
     msg_id = message.message_id
