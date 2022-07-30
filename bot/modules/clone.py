@@ -3,6 +3,7 @@ from string import ascii_letters, digits
 from telegram.ext import CommandHandler
 from threading import Thread
 from time import sleep
+from telegram import InlineKeyboardMarkup
 
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage
@@ -13,9 +14,23 @@ from bot import dispatcher, LOGGER, CLONE_LIMIT, STOP_DUPLICATE, download_dict, 
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_gdrive_link, is_gdtot_link, new_thread
 from bot.helper.mirror_utils.download_utils.direct_link_generator import gdtot
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
+from bot.helper.telegram_helper.button_build import ButtonMaker
 
 
 def _clone(message, bot, multi=0):
+    buttons = ButtonMaker()
+    TITLE_NAME = "Join Channel"
+    CHANNEL_USERNAME = "SLTCUpdates"
+    try:
+        uname = message.from_user.mention_html(message.from_user.first_name)
+        user = bot.get_chat_member(int(-1001691739650), message.from_user.id)
+        if user.status not in ['member', 'creator', 'administrator']:
+            buttons.buildbutton(f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
+            reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our updates channel</b>", bot, message, reply_markup)
+    except Exception as e:
+        LOGGER.info(str(e))
+
     args = message.text.split(" ", maxsplit=1)
     reply_to = message.reply_to_message
     link = ''
