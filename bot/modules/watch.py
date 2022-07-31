@@ -26,7 +26,7 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
         if user.status not in ['member', 'creator', 'administrator']:
             buttons.buildbutton(f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
             reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
-            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our updates channel</b>", bot, message, reply_markup)
+            return sendMarkup(f"<b>Hey <i><u>{uname}️</i></u>,\n\nFirst join our updates channel</b>", bot, message, reply_markup)
     except Exception as e:
         LOGGER.info(str(e))
 
