@@ -17,16 +17,16 @@ from bot.helper.telegram_helper.button_build import ButtonMaker
 listener_dict = {}
 
 def _watch(bot, message, isZip=False, isLeech=False, multi=0):
-    buttons = ButtonMaker()
-    TITLE_NAME = "Join Channel"
-    CHANNEL_USERNAME = "SLTCUpdates"
     try:
+        buttons = ButtonMaker()
+        TITLE_NAME = "Join Channel"
+        CHANNEL_USERNAME = "SLTCUpdates"
         uname = message.from_user.mention_html(message.from_user.first_name)
-        user = bot.get_chat_member(int(-1001691739650), message.from_user.id)
+        user = bot.get_chat_member(-1001691739650, message.from_user.id)
         if user.status not in ['member', 'creator', 'administrator']:
             buttons.buildbutton(f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
             reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
-            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our update channel</b>", bot, message, reply_markup)
+            return sendMarkup(f"<b>Hey {uname}️,\n\nFirst join our updates channel</b>", bot, message, reply_markup)
     except Exception as e:
         LOGGER.info(str(e))
 
