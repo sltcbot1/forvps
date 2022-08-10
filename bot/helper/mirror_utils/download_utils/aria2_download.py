@@ -11,25 +11,37 @@ from bot.helper.ext_utils.fs_utils import get_base_name, check_storage_threshold
 
 @new_thread
 def __onDownloadStarted(api, gid):
-    try:
-        if any([STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, STORAGE_THRESHOLD]):
-            download = api.get_download(gid)
-            if download.is_metadata:
-                LOGGER.info(f'onDownloadStarted: {gid} Metadata')
-                return
-            elif not download.is_torrent:
-                sleep(3)
+    download = api.get_download(gid)
+    if download.is_metadata:
+        LOGGER.info(f'onDownloadStarted: {gid} Metadata')
+        dl = getDownloadByGid(gid)
+        if dl.listener().select:
+            metamsg = "Downloading Metadata, wait then you can select files."
+            meta = sendMessage(metamsg, dl.listener().bot, dl.listener().message)
+            while True:
                 download = api.get_download(gid)
+                if download.followed_by_ids:
+                    deleteMessage(dl.listener().bot, meta)
+                    break
+                sleep(1)
+        return
+    else:
+        LOGGER.info(f'onDownloadStarted: {gid}')
+    try:
+        if any([STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, LEECH_LIMIT, STORAGE_THRESHOLD]):
+            download = api.get_download(gid)
+            if not download.is_torrent:
+                sleep(3)
             LOGGER.info(f'onDownloadStarted: {gid}')
             dl = getDownloadByGid(gid)
             if not dl:
                 return
-            if STOP_DUPLICATE and not dl.getListener().isLeech:
+            if STOP_DUPLICATE and not dl.listener().isLeech:
                 LOGGER.info('Checking File/Folder if already in Drive...')
                 sname = download.name
-                if dl.getListener().isZip:
-                    sname = sname + ".zip"
-                elif dl.getListener().extract:
+                if dl.listener().isZip:
+                    sname = f"{sname}.zip"
+                elif dl.listener().extract:
                     try:
                         sname = get_base_name(sname)
                     except:
@@ -37,32 +49,35 @@ def __onDownloadStarted(api, gid):
                 if sname is not None:
                     smsg, button = GoogleDriveHelper().drive_list(sname, True)
                     if smsg:
-                        dl.getListener().onDownloadError('File/Folder already available in Drive.\n\n')
+                        dl.listener().onDownloadError('File/Folder already available in Drive.\n\n')
                         api.remove([download], force=True, files=True)
-                        return sendMarkup("Here are the search results:", dl.getListener().bot, dl.getListener().message, button)
-            if any([ZIP_UNZIP_LIMIT, TORRENT_DIRECT_LIMIT, STORAGE_THRESHOLD]):
+                        return sendMarkup("Here are the search results:", dl.listener().bot, dl.listener().message, button)
+            if any([ZIP_UNZIP_LIMIT, LEECH_LIMIT, TORRENT_DIRECT_LIMIT, STORAGE_THRESHOLD]):
                 sleep(1)
                 limit = None
                 size = download.total_length
-                arch = any([dl.getListener().isZip, dl.getListener().extract])
+                arch = any([dl.listener().isZip, dl.listener().isLeech, dl.listener().extract])
                 if STORAGE_THRESHOLD is not None:
                     acpt = check_storage_threshold(size, arch, True)
                     # True if files allocated, if allocation disabled remove True arg
                     if not acpt:
                         msg = f'You must leave {STORAGE_THRESHOLD}GB free storage.'
                         msg += f'\nYour File/Folder size is {get_readable_file_size(size)}'
-                        dl.getListener().onDownloadError(msg)
+                        dl.listener().onDownloadError(msg)
                         return api.remove([download], force=True, files=True)
                 if ZIP_UNZIP_LIMIT is not None and arch:
                     mssg = f'Zip/Unzip limit is {ZIP_UNZIP_LIMIT}GB'
                     limit = ZIP_UNZIP_LIMIT
+                if LEECH_LIMIT is not None and dl.listener().isLeech:
+                    mssg = f'Leech limit is {LEECH_LIMIT}GB'
+                    limit = LEECH_LIMIT
                 elif TORRENT_DIRECT_LIMIT is not None:
                     mssg = f'Torrent/Direct limit is {TORRENT_DIRECT_LIMIT}GB'
                     limit = TORRENT_DIRECT_LIMIT
                 if limit is not None:
                     LOGGER.info('Checking File/Folder Size...')
                     if size > limit * 1024**3:
-                        dl.getListener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
+                        dl.listener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
                         return api.remove([download], force=True, files=True)
     except Exception as e:
         LOGGER.error(f"{e} onDownloadStart: {gid} stop duplicate and size check didn't pass")
