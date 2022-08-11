@@ -11,22 +11,6 @@ from bot.helper.ext_utils.fs_utils import get_base_name, check_storage_threshold
 LEECH_LIMIT = 40
 @new_thread
 def __onDownloadStarted(api, gid):
-    download = api.get_download(gid)
-    if download.is_metadata:
-        LOGGER.info(f'onDownloadStarted: {gid} Metadata')
-        dl = getDownloadByGid(gid)
-        if dl.getListener().select:
-            metamsg = "Downloading Metadata, wait then you can select files."
-            meta = sendMessage(metamsg, dl.getListener().bot, dl.getListener().message)
-            while True:
-                download = api.get_download(gid)
-                if download.followed_by_ids:
-                    deleteMessage(dl.getListener().bot, meta)
-                    break
-                sleep(1)
-        return
-    else:
-        LOGGER.info(f'onDownloadStarted: {gid}')
     try:
         if any([STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, LEECH_LIMIT, STORAGE_THRESHOLD]):
             download = api.get_download(gid)
