@@ -334,8 +334,8 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
     
     if link is not None:
        try:
-           tag = message.from_user.mention_html(message.from_user.first_name)
-           msg = f"<b>User <i>{tag}</i> sent:</b>\n<code>{link}</code>"
+           tag1 = message.from_user.mention_html(message.from_user.first_name)
+           msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
            sendMessage(msg, bot, message)
        except:
            pass
@@ -366,8 +366,8 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
                 if is_url(reply_text) or is_magnet(reply_text):
                     link = reply_text.strip()
                     try:
-                       tag = message.from_user.mention_html(message.from_user.first_name)
-                       msg = f"<b>User <i>{tag}</i> sent:</b>\n<code>{link}</code>"
+                       tag1 = reply_to.from_user.mention_html(message.from_user.first_name)
+                       msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
                        sendMessage(msg, bot, message)
                     except:
                        pass
