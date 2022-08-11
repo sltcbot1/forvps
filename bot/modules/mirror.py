@@ -332,11 +332,12 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
     else:
         tag = message.from_user.mention_html(message.from_user.first_name)
     tag = message.from_user.mention_html(message.from_user.first_name)
-    try:
-       msg = f"User {tag} sent:\n <code>{link}</code>"
-       sendMessage(msg, bot, message)
-    except:
-        pass
+    if link is not None:
+       try:
+           msg = f"User {tag} sent:\n <code>{link}</code>"
+           sendMessage(msg, bot, message)
+       except:
+           pass
 
     reply_to = message.reply_to_message
     if reply_to is not None:
