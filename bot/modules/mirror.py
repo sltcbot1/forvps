@@ -332,7 +332,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
     else:
         tag = message.from_user.mention_html(message.from_user.first_name)
     
-    if link is not None:
+    if len(link) > 2:
        try:
            tag1 = message.from_user.mention_html(message.from_user.first_name)
            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
