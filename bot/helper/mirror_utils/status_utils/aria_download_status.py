@@ -13,9 +13,11 @@ class AriaDownloadStatus:
     def __init__(self, gid, listener):
         self.__gid = gid
         self.__download = get_download(gid)
-        self.__uid = listener.uid
         self.__listener = listener
         self.message = listener.message
+
+    def path(self):
+        return f'{DOWNLOAD_DIR}{self.__listener.uid}'
 
     def __update(self):
         self.__download = get_download(self.__gid)
