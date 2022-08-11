@@ -43,6 +43,13 @@ def _clone(message, bot, multi=0):
             tag = f"@{message.from_user.username}"
         else:
             tag = message.from_user.mention_html(message.from_user.first_name)
+        try:
+            tag1 = message.from_user.mention_html(message.from_user.first_name)
+            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            sendMessage(msg, bot, message)
+        except:
+            pass
+
     if reply_to is not None:
         if len(link) == 0:
             link = reply_to.text
@@ -50,6 +57,12 @@ def _clone(message, bot, multi=0):
             tag = f"@{reply_to.from_user.username}"
         else:
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
+        try:
+            tag1 = reply_to.from_user.mention_html(reply_to.from_user.first_name)
+            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            sendMessage(msg, bot, message)
+        except:
+            pass
     is_gdtot = is_gdtot_link(link)
     if is_gdtot:
         try:
