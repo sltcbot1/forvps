@@ -43,7 +43,7 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
             raise IndexError
     except:
         link = ''
-    if link is not None:
+    if len(link) > 2:
         try:
             tag1 = message.from_user.mention_html(message.from_user.first_name)
             msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
