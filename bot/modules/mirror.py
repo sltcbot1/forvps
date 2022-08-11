@@ -331,9 +331,10 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         tag = f"@{message.from_user.username}"
     else:
         tag = message.from_user.mention_html(message.from_user.first_name)
-    tag = message.from_user.mention_html(message.from_user.first_name)
+    
     if link is not None:
        try:
+           tag = message.from_user.mention_html(message.from_user.first_name)
            msg = f"<b>User <i>{tag}</i> sent:</b>\n<code>{link}</code>"
            sendMessage(msg, bot, message)
        except:
@@ -364,6 +365,12 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
                 reply_text = reply_to.text
                 if is_url(reply_text) or is_magnet(reply_text):
                     link = reply_text.strip()
+                    try:
+                       tag = message.from_user.mention_html(message.from_user.first_name)
+                       msg = f"<b>User <i>{tag}</i> sent:</b>\n<code>{link}</code>"
+                       sendMessage(msg, bot, message)
+                    except:
+                       pass
             elif file.mime_type != "application/x-bittorrent" and not isQbit:
                 listener = MirrorListener(bot, message, isZip, extract, isQbit, isLeech, pswd, tag)
                 Thread(target=TelegramDownloadHelper(listener).add_download, args=(message, f'{DOWNLOAD_DIR}{listener.uid}/', name)).start()
