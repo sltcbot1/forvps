@@ -43,6 +43,14 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
             raise IndexError
     except:
         link = ''
+    if link is not None:
+        try:
+            tag1 = message.from_user.mention_html(message.from_user.first_name)
+            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            sendMessage(msg, bot, message)
+        except:
+            pass
+
     try:
         name_arg = mssg.split('|', maxsplit=1)
         if 'args: ' in name_arg[0]:
@@ -77,6 +85,13 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
             tag = f"@{reply_to.from_user.username}"
         else:
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
+        try:
+            tag1 = reply_to.from_user.mention_html(reply_to.from_user.first_name)
+            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            sendMessage(msg, bot, message)
+        except:
+            pass
+
 
     if not is_url(link):
         help_msg = "<b>Send link along with command line:</b>"
