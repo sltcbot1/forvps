@@ -15,13 +15,13 @@ def __onDownloadStarted(api, gid):
     if download.is_metadata:
         LOGGER.info(f'onDownloadStarted: {gid} Metadata')
         dl = getDownloadByGid(gid)
-        if dl.listener().select:
+        if dl.getListener().select:
             metamsg = "Downloading Metadata, wait then you can select files."
-            meta = sendMessage(metamsg, dl.listener().bot, dl.listener().message)
+            meta = sendMessage(metamsg, dl.getListener().bot, dl.getListener().message)
             while True:
                 download = api.get_download(gid)
                 if download.followed_by_ids:
-                    deleteMessage(dl.listener().bot, meta)
+                    deleteMessage(dl.getListener().bot, meta)
                     break
                 sleep(1)
         return
@@ -36,12 +36,12 @@ def __onDownloadStarted(api, gid):
             dl = getDownloadByGid(gid)
             if not dl:
                 return
-            if STOP_DUPLICATE and not dl.listener().isLeech:
+            if STOP_DUPLICATE and not dl.getListener().isLeech:
                 LOGGER.info('Checking File/Folder if already in Drive...')
                 sname = download.name
-                if dl.listener().isZip:
+                if dl.getListener().isZip:
                     sname = f"{sname}.zip"
-                elif dl.listener().extract:
+                elif dl.getListener().extract:
                     try:
                         sname = get_base_name(sname)
                     except:
@@ -49,26 +49,26 @@ def __onDownloadStarted(api, gid):
                 if sname is not None:
                     smsg, button = GoogleDriveHelper().drive_list(sname, True)
                     if smsg:
-                        dl.listener().onDownloadError('File/Folder already available in Drive.\n\n')
+                        dl.getListener().onDownloadError('File/Folder already available in Drive.\n\n')
                         api.remove([download], force=True, files=True)
-                        return sendMarkup("Here are the search results:", dl.listener().bot, dl.listener().message, button)
+                        return sendMarkup("Here are the search results:", dl.getListener().bot, dl.getListener().message, button)
             if any([ZIP_UNZIP_LIMIT, LEECH_LIMIT, TORRENT_DIRECT_LIMIT, STORAGE_THRESHOLD]):
                 sleep(1)
                 limit = None
                 size = download.total_length
-                arch = any([dl.listener().isZip, dl.listener().isLeech, dl.listener().extract])
+                arch = any([dl.getListener().isZip, dl.getListener().isLeech, dl.getListener().extract])
                 if STORAGE_THRESHOLD is not None:
                     acpt = check_storage_threshold(size, arch, True)
                     # True if files allocated, if allocation disabled remove True arg
                     if not acpt:
                         msg = f'You must leave {STORAGE_THRESHOLD}GB free storage.'
                         msg += f'\nYour File/Folder size is {get_readable_file_size(size)}'
-                        dl.listener().onDownloadError(msg)
+                        dl.getListener().onDownloadError(msg)
                         return api.remove([download], force=True, files=True)
                 if ZIP_UNZIP_LIMIT is not None and arch:
                     mssg = f'Zip/Unzip limit is {ZIP_UNZIP_LIMIT}GB'
                     limit = ZIP_UNZIP_LIMIT
-                if LEECH_LIMIT is not None and dl.listener().isLeech:
+                if LEECH_LIMIT is not None and dl.getListener().isLeech:
                     mssg = f'Leech limit is {LEECH_LIMIT}GB'
                     limit = LEECH_LIMIT
                 elif TORRENT_DIRECT_LIMIT is not None:
@@ -77,7 +77,7 @@ def __onDownloadStarted(api, gid):
                 if limit is not None:
                     LOGGER.info('Checking File/Folder Size...')
                     if size > limit * 1024**3:
-                        dl.listener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
+                        dl.getListener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
                         return api.remove([download], force=True, files=True)
     except Exception as e:
         LOGGER.error(f"{e} onDownloadStart: {gid} stop duplicate and size check didn't pass")
