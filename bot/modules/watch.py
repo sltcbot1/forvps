@@ -46,7 +46,11 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
     if len(link) > 2:
         try:
             tag1 = message.from_user.mention_html(message.from_user.first_name)
-            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            text1 = message.text
+            s1 = text1.split(' ', maxsplit=1)
+            s2 = s1[0].split('/', maxsplit=1)
+            msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>\n"
+            msg += f"<b>With Command:</b>\n<i>{s2[1]}</i>"
             sendMessage(msg, bot, message)
         except:
             pass
@@ -87,7 +91,10 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
         try:
             tag1 = reply_to.from_user.mention_html(reply_to.from_user.first_name)
+            text2 = message.text
+            s3 = text2.split('/', maxsplit=1)
             msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>"
+            msg += f"<b>With Command:</b>\n<i>{s3[1]}</i>"
             sendMessage(msg, bot, message)
         except:
             pass
