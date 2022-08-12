@@ -49,7 +49,7 @@ def _clone(message, bot, multi=0):
             s1 = text1.split(' ', maxsplit=1)
             s2 = s1[0].split('/', maxsplit=1)
             msg = f"<b>User <i>{tag1}</i> sent:</b>\n<code>{link}</code>\n"
-            msg += f"<b>With Command:</b>\n<i>{s2[1]}</i>
+            msg += f"<b>With Command:</b>\n<i>{s2[1]}</i>"
             sendMessage(msg, bot, message)
         except:
             pass
