@@ -8,7 +8,7 @@ from bot.helper.mirror_utils.status_utils.aria_download_status import AriaDownlo
 from bot.helper.telegram_helper.message_utils import sendMarkup, sendStatusMessage, sendMessage
 from bot.helper.ext_utils.fs_utils import get_base_name, check_storage_threshold
 
-
+LEECH_LIMIT = None
 @new_thread
 def __onDownloadStarted(api, gid):
     try:
