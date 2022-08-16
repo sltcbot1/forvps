@@ -184,7 +184,7 @@ class YoutubeDLHelper:
                 msg = f'You must leave {STORAGE_THRESHOLD}GB free storage.'
                 msg += f'\nYour File/Folder size is {get_readable_file_size(self.size)}'
                 return self.__onDownloadError(msg)
-        LEECH_LIMIT = 40
+        LEECH_LIMIT = None
         if LEECH_LIMIT is not None and self.__listener.isLeech:
             msg = f'Leech Limit is: {LEECH_LIMIT}GB.'
             msg += f'\nYour File/Folder size is {get_readable_file_size(self.size)}'
