@@ -95,7 +95,12 @@ def ping(update, context):
 
 def log(update, context):
     sendLogFile(context.bot, update.message)
+    
+def send_downDic(update, context):
+    sendMessage(str(download_dict), context.bot, update.message)
 
+def send_stsDic(update, context):
+    sendMessage(str(status_reply_dict), context.bot, update.message)
 
 help_string_telegraph = f'''<br>
 <b>/{BotCommands.HelpCommand}</b>: To get this message
@@ -248,12 +253,18 @@ def main():
     stats_handler = CommandHandler(BotCommands.StatsCommand,
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
+    dic_handler = CommandHandler("dic", send_downDic, filters=CustomFilters.sudo_user ,run_async=True)
+    sts_handler = CommandHandler("sts", send_stsDic, filters=CustomFilters.sudo_user ,run_async=True)
+
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(ping_handler)
     dispatcher.add_handler(restart_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(stats_handler)
     dispatcher.add_handler(log_handler)
+    dispatcher.add_handler(dic_handler)
+    dispatcher.add_handler(sts_handler)
+
     updater.start_polling(drop_pending_updates=IGNORE_PENDING_REQUESTS)
     LOGGER.info("Bot Started!")
     signal(SIGINT, exit_clean_up)
