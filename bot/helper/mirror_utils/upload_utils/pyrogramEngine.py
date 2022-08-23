@@ -103,7 +103,6 @@ class TgUploader:
                         osrename(up_path, new_path)
                         up_path = new_path
                     self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
-                                                                  reply_markup=repmkp,
                                                                   quote=True,
                                                                   caption=cap_mono,
                                                                   duration=duration,
