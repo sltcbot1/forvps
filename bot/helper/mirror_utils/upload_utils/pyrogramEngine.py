@@ -75,6 +75,10 @@ class TgUploader:
         notMedia = False
         thumb = self.__thumb
         self.__is_corrupted = False
+        button = ButtonMaker()
+        button.buildbutton("SL Torrenting Corp", "https://t.me/SLTCUpdates")
+        repmkp = InlineKeyboardMarkup(button.build_menu(1))
+        
         try:
             if not self.__as_doc:
                 duration = 0
@@ -97,6 +101,7 @@ class TgUploader:
                         osrename(up_path, new_path)
                         up_path = new_path
                     self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
+                                                                  reply_markup=repmkp,
                                                                   quote=True,
                                                                   caption=cap_mono,
                                                                   duration=duration,
