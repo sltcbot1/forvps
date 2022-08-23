@@ -147,9 +147,6 @@ class QbDownloader:
                     if ZIP_UNZIP_LIMIT is not None and (lsn.isZip or lsn.extract):
                         mssg = f'Zip/Unzip limit is {ZIP_UNZIP_LIMIT}GB'
                         limit = ZIP_UNZIP_LIMIT
-                    if LEECH_LIMIT is not None and self.__listener.isLeech:
-                        mssg = f'Leech limit is {LEECH_LIMIT}GB'
-                        limit = LEECH_LIMIT
                     elif TORRENT_DIRECT_LIMIT is not None:
                         mssg = f'Torrent limit is {TORRENT_DIRECT_LIMIT}GB'
                         limit = TORRENT_DIRECT_LIMIT
