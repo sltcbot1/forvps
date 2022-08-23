@@ -40,7 +40,8 @@ def __onDownloadStarted(api, gid):
                 sleep(1)
                 limit = None
                 size = download.total_length
-                arch = any([dl.getListener().isZip, dl.getListener().isLeech, dl.getListener().extract])
+                lsn = dl.getListener()
+                arch = any([lsn.isZip, lsn.isLeech, lsn.extract])
                 if STORAGE_THRESHOLD is not None:
                     acpt = check_storage_threshold(size, arch, True)
                     # True if files allocated, if allocation disabled remove True arg
@@ -49,7 +50,7 @@ def __onDownloadStarted(api, gid):
                         msg += f'\nYour File/Folder size is {get_readable_file_size(size)}'
                         dl.getListener().onDownloadError(msg)
                         return api.remove([download], force=True, files=True)
-                if ZIP_UNZIP_LIMIT is not None and (dl.getListener().isZip or dl.getListener.extract):
+                if ZIP_UNZIP_LIMIT is not None and (lsn.isZip or lsn.extract):
                     mssg = f'Zip/Unzip limit is {ZIP_UNZIP_LIMIT}GB'
                     limit = ZIP_UNZIP_LIMIT
                 if LEECH_LIMIT is not None and dl.getListener().isLeech:
