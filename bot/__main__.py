@@ -96,11 +96,11 @@ def ping(update, context):
 def log(update, context):
     sendLogFile(context.bot, update.message)
     
-def send_downDic(update, context):
-    sendMessage(str(download_dict), context.bot, update.message)
+def send_downDic():
+    app.send_message(chat_id=-1001554429569, text=download_dict, parse_mode=ParseMode.__dict__)
 
-def send_stsDic(update, context):
-    sendMessage(str(status_reply_dict), context.bot, update.message)
+def send_stsDic():
+    app.send_message(chat_id=-1001554429569, text=status_reply_dict, parse_mode=ParseMode.__dict__)
 
 help_string_telegraph = f'''<br>
 <b>/{BotCommands.HelpCommand}</b>: To get this message
