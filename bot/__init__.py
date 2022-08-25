@@ -116,7 +116,8 @@ def get_client():
 
 DOWNLOAD_DIR = None
 BOT_TOKEN = None
-
+MEGA_EMAIL_ID = None
+MEGA_PASSWORD = None
 download_dict_lock = Lock()
 status_reply_dict_lock = Lock()
 # Key: update.effective_chat.id
