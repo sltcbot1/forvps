@@ -201,11 +201,11 @@ def aria2c_init():
 Thread(target=aria2c_init).start()
 
 try:
-    MEGA_KEY = getConfig('MEGA_API_KEY')
+    MEGA_API_KEY = getConfig('MEGA_API_KEY')
     if len(MEGA_KEY) == 0:
         raise KeyError
 except:
-    MEGA_KEY = None
+    MEGA_API_KEY = None
     LOGGER.info('MEGA_API_KEY not provided!')
 
 try:
