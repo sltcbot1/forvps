@@ -121,6 +121,7 @@ def get_readable_message():
             if PAGE_NO > pages and pages != 0:
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
+        msg += f"<b><i>VPS bot of <u>SL Torrenting Corp</u></i></b>\n\n"
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
             msg += f"<b>🌐 Name:</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>🌐 Status:</b> <i>{download.status()}</i>"
