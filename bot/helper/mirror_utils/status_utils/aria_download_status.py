@@ -88,7 +88,7 @@ class AriaDownloadStatus:
     def download(self):
         return self
 
-    def listener(self):
+    def getListener(self):
         return self.__listener
 
     def gid(self):
