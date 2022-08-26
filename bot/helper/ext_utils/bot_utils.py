@@ -161,15 +161,16 @@ def get_readable_message():
                 else:
                     msg += f"\n<b>🌐 Downloaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 msg += f"\n<b>🌐 Speed:</b> {download.speed()} | <b>🌐 ETA:</b> {download.eta()}"
-                try:
-                    msg += f"\n<b>🔥Seeders:</b> {download.aria_download().num_seeders}" \
-                           f" | <b>🔥Peers:</b> {download.aria_download().connections}"
-                except:
-                    pass
-                try:
-                    msg += f"\n<b>🔥Seeders:</b> {download.torrent_info().num_seeds}" \
-                           f" | <b>🔥Leechers:</b> {download.torrent_info().num_leechs}"
-                except:
+                if hasattr(download, 'seeders_num'):
+                    try:
+                        msg += f"\n<b>🔥Seeders:</b> {download.seeders_num()}" \
+                               f" | <b>🔥Peers:</b> {download.leechers_num()}"
+                    except:
+                        pass
+                    try:
+                        msg += f"\n<b>🔥Seeders:</b> {download.seeders_num()}" \
+                               f" | <b>🔥Leechers:</b> {download.leechers_num()}"
+                    except:
                     pass
                 msg += f"\n<b>⏱ Elapsed : </b>{get_readable_time(time() - download.message.date.timestamp())}"
                 msg += f'\n<b>👤 User :<i> <a href="https://t.me/c/{str(download.message.chat.id)[4:]}/{download.message.message_id}">{download.message.from_user.first_name}</a></i></b>'
