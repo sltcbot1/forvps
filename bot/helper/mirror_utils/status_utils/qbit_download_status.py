@@ -46,7 +46,10 @@ class QbDownloadStatus:
 
     def name(self):
         self.__update()
-        return self.__info.name
+        if self.__info.state in ["metaDL", "checkingResumeData"]:
+            return f"[METADATA]{self.__info.name}"
+        else:
+            return self.__info.name
 
     def path(self):
         return f"{DOWNLOAD_DIR}{self.__uid}"
