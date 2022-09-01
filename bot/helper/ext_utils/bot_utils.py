@@ -164,11 +164,6 @@ def get_readable_message():
                 if hasattr(download, 'seeders_num'):
                     try:
                         msg += f"\n<b>🔥Seeders:</b> {download.seeders_num()}" \
-                               f" | <b>🔥Peers:</b> {download.leechers_num()}"
-                    except:
-                        pass
-                    try:
-                        msg += f"\n<b>🔥Seeders:</b> {download.seeders_num()}" \
                                f" | <b>🔥Leechers:</b> {download.leechers_num()}"
                     except:
                         pass
