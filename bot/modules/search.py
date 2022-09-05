@@ -152,16 +152,15 @@ def _search(bot, key, site, message, method):
             return editMessage(f"No result found for <i>{key}</i>\nTorrent Site:- <i>{site.capitalize()}</i>", message)
         cap = f"<b>Found {total_results}</b>"
         cap += f" <b>results for <i>{key}</i>\nTorrent Site:- <i>{site.capitalize()}</i></b>"
-    hmsg = _getResult(search_results, key, method)
-    name = f"{method}_{key}_{site}_{message.message_id}.html"
-    with open(name, "w", encoding='utf-8') as f:
-        f.write(html_template.replace('{msg}', hmsg).replace('{title}', f'{method}_{key}_{site}'))
-    deleteMessage(bot, message)
-    sendFile(bot, message.reply_to_message, name, cap)
+    link = _getResult(search_results, key, message, method)
+    buttons = button_build.ButtonMaker()
+    buttons.buildbutton("🔎 VIEW", link)
+    button = buttons.build_menu(1)
+    editMessage(cap, message, button)
     if not method.startswith('api'):
         client.search_delete(search_id=search_id)
 
-def _getResult(search_results, key, method, message):
+def _getResult(search_results, key, message, method):
     telegraph_content = []
     if method == 'apirecent':
         msg = '<span class="container center rfontsize"><h4>API Recent Results</h4></span>'
