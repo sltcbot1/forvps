@@ -161,7 +161,7 @@ def _search(bot, key, site, message, method):
     if not method.startswith('api'):
         client.search_delete(search_id=search_id)
 
-def _getResult(search_results, key, method):
+def _getResult(search_results, key, method, message):
     telegraph_content = []
     if method == 'apirecent':
         msg = '<span class="container center rfontsize"><h4>API Recent Results</h4></span>'
