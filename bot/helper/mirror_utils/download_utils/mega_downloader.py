@@ -163,10 +163,10 @@ def add_mega_download(mega_link: str, path: str, listener, name: str):
             except:
                 mname = None
         if mname is not None:
-            cap, f_name = GoogleDriveHelper().drive_list(mname, True)
+            cap, button = GoogleDriveHelper().drive_list(mname, True)
             if cap:
                 cap = f"File/Folder is already available in Drive. Here are the search results:\n\n{cap}"
-                sendFile(listener.bot, listener.message, f_name, cap)
+                sendMarkup(cap, listener.bot, listener.message, button)
                 api.removeListener(mega_listener)
                 if folder_api is not None:
                     folder_api.removeListener(mega_listener)
