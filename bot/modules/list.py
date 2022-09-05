@@ -40,10 +40,9 @@ def select_type(update, context):
 def _list_drive(bot, key, bmsg, item_type):
     LOGGER.info(f"listing: {key}")
     gdrive = GoogleDriveHelper()
-    cap, f_name = gdrive.drive_list(key, isRecursive=True, itemType=item_type)
+    cap, button = gdrive.drive_list(key, isRecursive=True, itemType=item_type)
     if cap:
-        deleteMessage(bot, bmsg)
-        sendFile(bot, bmsg.reply_to_message, f_name, cap)
+        editMessage(cap, bmsg, button)
     else:
         editMessage(f'No result found for <i>{key}</i>', bmsg)
 
