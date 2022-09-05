@@ -127,11 +127,11 @@ class QbDownloader:
                         except:
                             qbname = None
                     if qbname is not None:
-                        cap, f_name = GoogleDriveHelper().drive_list(qbname, True)
+                        cap, button = GoogleDriveHelper().drive_list(qbname, True)
                         if cap:
                             self.__onDownloadError("File/Folder is already available in Drive.")
                             cap = f"Here are the search results:\n\n{cap}"
-                            sendFile(self.__listener.bot, self.__listener.message, f_name, cap)
+                            sendMarkup(cap, self.__listener.bot, self.__listener.message, button)
                     self.__stopDup_check = True
                 if not self.__sizeChecked:
                     size = tor_info.size
