@@ -2,7 +2,7 @@ from logging import getLogger, WARNING
 from time import time
 from threading import RLock, Lock
 
-from bot import LOGGER, download_dict, download_dict_lock, STOP_DUPLICATE, app
+from bot import LOGGER, download_dict, download_dict_lock, STOP_DUPLICATE, app, STORAGE_THRESHOLD
 from ..status_utils.telegram_download_status import TelegramDownloadStatus
 from bot.helper.telegram_helper.message_utils import sendStatusMessage, sendFile, sendMarkup
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
