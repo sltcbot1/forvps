@@ -74,7 +74,7 @@ def __onDownloadComplete(api, gid):
         new_gid = download.followed_by_ids[0]
         LOGGER.info(f'Gid changed from {gid} to {new_gid}')
         if dl := getDownloadByGid(new_gid):
-            listener = dl.listener()
+            listener = dl.getListener()
             if BASE_URL is not None and listener.select:
                 api.client.force_pause(new_gid)
                 SBUTTONS = bt_selection_buttons(new_gid)
@@ -83,7 +83,7 @@ def __onDownloadComplete(api, gid):
     elif download.is_torrent:
         if dl := getDownloadByGid(gid):
             if hasattr(dl, 'listener'):
-                listener = dl.listener()
+                listener = dl.getListener()
                 if hasattr(listener, 'uploaded'):
                     LOGGER.info(f"Cancelling Seed: {download.name} onDownloadComplete")
                     listener.onUploadError(f"Seeding stopped with Ratio: {dl.ratio()} and Time: {dl.seeding_time()}")
@@ -91,7 +91,7 @@ def __onDownloadComplete(api, gid):
     else:
         LOGGER.info(f"onDownloadComplete: {download.name} - Gid: {gid}")
         if dl := getDownloadByGid(gid):
-            dl.listener().onDownloadComplete()
+            dl.getListener().onDownloadComplete()
             api.remove([download], force=True, files=True)
 
 @new_thread
@@ -101,7 +101,7 @@ def __onBtDownloadComplete(api, gid):
     download = api.get_download(gid)
     LOGGER.info(f"onBtDownloadComplete: {download.name} - Gid: {gid}")
     if dl := getDownloadByGid(gid):
-        listener = dl.listener()
+        listener = dl.getListener()
         if listener.select:
             res = download.files
             for file_o in res:
@@ -144,7 +144,7 @@ def __onBtDownloadComplete(api, gid):
 def __onDownloadStopped(api, gid):
     sleep(6)
     if dl := getDownloadByGid(gid):
-        dl.listener().onDownloadError('Dead torrent! Try with qbittorrent again')
+        dl.getListener().onDownloadError('Dead torrent! Try with qbittorrent again')
 
 @new_thread
 def __onDownloadError(api, gid):
@@ -157,7 +157,7 @@ def __onDownloadError(api, gid):
     except:
         pass
     if dl := getDownloadByGid(gid):
-        dl.listener().onDownloadError(error)
+        dl.getListener().onDownloadError(error)
 
 def start_listener():
     aria2.listen_to_notifications(threaded=True,
