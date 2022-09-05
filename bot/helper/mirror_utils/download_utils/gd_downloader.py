@@ -4,7 +4,7 @@ from string import ascii_letters, digits
 from bot import download_dict, download_dict_lock, LOGGER, STOP_DUPLICATE, ZIP_UNZIP_LIMIT,TORRENT_DIRECT_LIMIT,STORAGE_THRESHOLD
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.mirror_utils.status_utils.gd_download_status import GdDownloadStatus
-from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage, sendFile
+from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage, sendFile, sendMarkup
 from bot.helper.ext_utils.fs_utils import get_base_name, check_storage_threshold
 from bot.helper.ext_utils.bot_utils import get_readable_file_size
 
