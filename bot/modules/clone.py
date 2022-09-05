@@ -86,11 +86,10 @@ def _clone(message, bot):
             return sendMessage(res, bot, message)
         if STOP_DUPLICATE:
             LOGGER.info('Checking File/Folder if already in Drive...')
-            cap, f_name = gd.drive_list(name, True, True)
+            cap, button = gd.drive_list(name, True, True)
             if cap:
                 cap = f"File/Folder is already available in Drive. Here are the search results:\n\n{cap}"
-                sendFile(bot, message, f_name, cap)
-                return
+                return sendMarkup(cap, bot, message, button)
         if CLONE_LIMIT is not None:
             LOGGER.info('Checking File/Folder Size...')
             if size > CLONE_LIMIT * 1024 ** 3:
