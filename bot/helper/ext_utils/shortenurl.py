@@ -46,7 +46,7 @@ def short_url(longurl):
             return cget(f'http://cutt.ly/api/api.php?key={SHORTENER_API}&short={longurl}', verify=False).json()['url']['shortLink']
         elif "shrinkearn.com" in SHORTENER:
             disable_warnings()
-            return cget(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={quote(longurl)}', verify=False).json()['shortenedUrl']
+            return cget(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={quote(longurl)}&alias=CustomAlias', verify=False).json()['shortenedUrl']
         else:
             return cget(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={quote(longurl)}&format=text').text
     except Exception as e:
