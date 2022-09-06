@@ -248,7 +248,7 @@ class MirrorLeechListener:
             msg += f'\n\n<b>➩👤 cc: </b>{self.tag}'
             msg += f'\n\n<b>☞ 🎯 Powered by @SLTCUpdates</b>'
             buttons = ButtonMaker()
-            link short_url(link)
+            link = short_url(link)
             buttons.buildbutton("☁️ Drive Link", link)
             LOGGER.info(f'Done Uploading {name}')
             if INDEX_URL is not None:
