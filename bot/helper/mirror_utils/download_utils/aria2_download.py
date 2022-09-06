@@ -80,14 +80,6 @@ def __onDownloadComplete(api, gid):
                 SBUTTONS = bt_selection_buttons(new_gid)
                 msg = "Your download paused. Choose files then press Done Selecting button to start downloading."
                 sendMarkup(msg, listener.bot, listener.message, SBUTTONS)
-    elif download.is_torrent:
-        if dl := getDownloadByGid(gid):
-            if hasattr(dl, 'listener'):
-                listener = dl.getListener()
-                if hasattr(listener, 'uploaded'):
-                    LOGGER.info(f"Cancelling Seed: {download.name} onDownloadComplete")
-                    listener.onUploadError(f"Seeding stopped with Ratio: {dl.ratio()} and Time: {dl.seeding_time()}")
-                    api.remove([download], force=True, files=True)
     else:
         LOGGER.info(f"onDownloadComplete: {download.name} - Gid: {gid}")
         if dl := getDownloadByGid(gid):
