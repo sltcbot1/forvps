@@ -202,8 +202,7 @@ def aria2c_init():
         sleep(3)
         downloads = aria2.get_downloads()
         sleep(20)
-        for download in downloads:
-            aria2.remove([download], force=True, files=True)
+        aria2.remove(downloads, force=True, files=True, clean=True)
     except Exception as e:
         log_error(f"Aria2c initializing error: {e}")
 Thread(target=aria2c_init).start()
